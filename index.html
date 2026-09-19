@@ -2,7 +2,7 @@
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>有閒無代誌．Ū-IÂNG BÔ TĀI-CHÌ</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
@@ -40,10 +40,13 @@
       z-index: 20;
       align-self: start;
     }
+    #mobileQuickRow { display: none; }
     @media (max-width: 1023px) {
       #canvasSection .canvas-frame {
         max-width: 46vw !important;
       }
+      #desktopQuickRow { display: none !important; }
+      #mobileQuickRow { display: flex !important; }
     }
   </style>
 </head>
@@ -54,7 +57,7 @@
       <div class="flex items-center space-x-3">
         <div>
           <h1 class="text-base font-bold text-neutral-900 tracking-tight leading-none">有閒無代誌</h1>
-          <p class="text-xs text-neutral-500 mt-0.5 hidden sm:block">Ū-IÂNG BÔ TĀI-CHÌ</p>
+          <p class="text-xs text-neutral-500 mt-0.5">Ū-IÂNG BÔ TĀI-CHÌ</p>
         </div>
       </div>
 
@@ -79,12 +82,24 @@
         <div class="w-full flex items-center justify-between mb-2 sm:mb-3 px-1 text-[10px] sm:text-xs text-neutral-500 gap-1">
           <span class="flex items-center gap-1 font-medium text-neutral-700">
             <svg class="w-4 h-4 text-neutral-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-            <span class="hidden sm:inline">點擊選取、拖曳調整</span>
+            <span>點擊選取、拖曳調整</span>
           </span>
         </div>
-        <div class="w-full flex items-center gap-1.5 mb-2 sm:mb-3">
+        <div id="desktopQuickRow" class="w-full flex items-center gap-1.5 mb-2 sm:mb-3">
           <button id="centerElementBtn" class="flex-1 hover:text-neutral-900 transition-colors bg-neutral-50 px-2 py-1 rounded border border-neutral-200 text-[10px] sm:text-xs text-neutral-500">水平居中</button>
           <button id="clearAllBtn" class="flex-1 hover:text-red-600 transition-colors bg-red-50 text-red-600 px-2 py-1 rounded border border-red-200 text-[10px] sm:text-xs">清空貼紙</button>
+        </div>
+        <div id="mobileQuickRow" class="w-full items-center gap-1.5 mb-2 opacity-40 pointer-events-none">
+          <button id="mFlipBtn" class="flex-1 text-xs font-medium text-neutral-700 bg-neutral-100 px-2 py-2.5 rounded-lg flex items-center justify-center gap-1">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
+            翻轉
+          </button>
+          <button id="mLayerUpBtn" class="flex-1 text-xs font-medium text-neutral-700 bg-neutral-100 px-2 py-2.5 rounded-lg">上移▲</button>
+          <button id="mLayerDownBtn" class="flex-1 text-xs font-medium text-neutral-700 bg-neutral-100 px-2 py-2.5 rounded-lg">下移▼</button>
+          <button id="mDeleteBtn" class="flex-1 text-xs font-medium text-red-600 bg-red-50 px-2 py-2.5 rounded-lg flex items-center justify-center gap-1">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+            刪除
+          </button>
         </div>
 
         <div class="canvas-frame relative w-full aspect-[32/55] max-w-[420px] rounded-xl overflow-hidden shadow-inner border border-neutral-200 bg-checkerboard flex items-center justify-center">
@@ -157,19 +172,19 @@
 
           <div class="flex flex-col gap-2 pt-2">
             <div class="flex gap-2">
-              <button id="flipBtn" class="flex-1 text-xs text-neutral-700 bg-neutral-100 hover:bg-neutral-200 px-3 py-1.5 rounded-lg font-medium transition-colors flex items-center justify-center gap-1">
+              <button id="flipBtn" class="flex-1 text-sm text-neutral-700 bg-neutral-100 hover:bg-neutral-200 px-3 py-3 rounded-lg font-medium transition-colors flex items-center justify-center gap-1 min-h-[44px]">
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
                 左右翻轉
               </button>
-              <button id="deleteElementBtn" class="flex-1 text-xs text-red-600 bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded-lg font-medium transition-colors flex items-center justify-center gap-1">
+              <button id="deleteElementBtn" class="flex-1 text-sm text-red-600 bg-red-50 hover:bg-red-100 px-3 py-3 rounded-lg font-medium transition-colors flex items-center justify-center gap-1 min-h-[44px]">
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                 刪除
               </button>
             </div>
 
             <div class="flex gap-2">
-              <button id="layerUpBtn" class="flex-1 text-xs text-neutral-700 bg-neutral-100 hover:bg-neutral-200 px-2.5 py-1.5 rounded-lg font-medium transition-colors">圖層上移▲</button>
-              <button id="layerDownBtn" class="flex-1 text-xs text-neutral-700 bg-neutral-100 hover:bg-neutral-200 px-2.5 py-1.5 rounded-lg font-medium transition-colors">圖層下移▼</button>
+              <button id="layerUpBtn" class="flex-1 text-sm text-neutral-700 bg-neutral-100 hover:bg-neutral-200 px-2.5 py-3 rounded-lg font-medium transition-colors min-h-[44px]">圖層上移▲</button>
+              <button id="layerDownBtn" class="flex-1 text-sm text-neutral-700 bg-neutral-100 hover:bg-neutral-200 px-2.5 py-3 rounded-lg font-medium transition-colors min-h-[44px]">圖層下移▼</button>
             </div>
           </div>
         </div>
@@ -550,8 +565,93 @@
     canvas.addEventListener('mousemove', handlePointerMove);
     window.addEventListener('mouseup', handlePointerUp);
 
-    canvas.addEventListener('touchstart', handlePointerDown, { passive: false });
-    canvas.addEventListener('touchmove', handlePointerMove, { passive: false });
+    // ---- Touch: single finger drags, two fingers pinch-to-scale + twist-to-rotate ----
+    let gesture = null; // { layerId, startDistance, startAngle, startScale, startRotation }
+
+    function getTouchCanvasPoint(touch, rect, scaleX, scaleY) {
+      return { x: (touch.clientX - rect.left) * scaleX, y: (touch.clientY - rect.top) * scaleY };
+    }
+
+    function twoTouchGeometry(touches) {
+      const rect = canvas.getBoundingClientRect();
+      const scaleX = canvas.width / rect.width;
+      const scaleY = canvas.height / rect.height;
+      const p0 = getTouchCanvasPoint(touches[0], rect, scaleX, scaleY);
+      const p1 = getTouchCanvasPoint(touches[1], rect, scaleX, scaleY);
+      const dx = p1.x - p0.x;
+      const dy = p1.y - p0.y;
+      return {
+        distance: Math.hypot(dx, dy),
+        angle: (Math.atan2(dy, dx) * 180) / Math.PI,
+        mid: { x: (p0.x + p1.x) / 2, y: (p0.y + p1.y) / 2 }
+      };
+    }
+
+    canvas.addEventListener('touchstart', (e) => {
+      if (e.touches.length >= 2) {
+        e.preventDefault();
+        isDragging = false;
+        const { distance, angle, mid } = twoTouchGeometry(e.touches);
+
+        let target = null;
+        for (let i = layers.length - 1; i >= 0; i--) {
+          if (isPointInLayer(mid.x, mid.y, layers[i])) { target = layers[i]; break; }
+        }
+        if (!target && selectedLayerId) {
+          target = layers.find(l => l.id === selectedLayerId);
+        }
+
+        if (target) {
+          selectedLayerId = target.id;
+          gesture = {
+            layerId: target.id,
+            startDistance: distance,
+            startAngle: angle,
+            startScale: target.scale,
+            startRotation: target.rotation
+          };
+          updateTransformUI();
+          renderCanvas();
+        }
+      } else {
+        handlePointerDown(e);
+      }
+    }, { passive: false });
+
+    canvas.addEventListener('touchmove', (e) => {
+      if (e.touches.length >= 2 && gesture) {
+        e.preventDefault();
+        const layer = layers.find(l => l.id === gesture.layerId);
+        if (layer) {
+          const { distance, angle } = twoTouchGeometry(e.touches);
+
+          const scaleDelta = distance / gesture.startDistance;
+          layer.scale = Math.min(2.5, Math.max(0.2, gesture.startScale * scaleDelta));
+
+          const angleDelta = angle - gesture.startAngle;
+          layer.rotation = Math.round(Math.min(180, Math.max(-180, gesture.startRotation + angleDelta)));
+
+          renderCanvas();
+          if (selectedLayerId === layer.id) {
+            scaleInput.value = layer.scale;
+            rotateInput.value = layer.rotation;
+            scaleValueText.textContent = `${Math.round(layer.scale * 100)}%`;
+            rotateValueText.textContent = `${layer.rotation}°`;
+          }
+        }
+      } else if (e.touches.length < 2) {
+        handlePointerMove(e);
+      }
+    }, { passive: false });
+
+    canvas.addEventListener('touchend', (e) => {
+      if (e.touches.length < 2) {
+        gesture = null;
+      }
+      if (e.touches.length === 0) {
+        handlePointerUp();
+      }
+    }, { passive: false });
     window.addEventListener('touchend', handlePointerUp);
 
     const scaleInput = document.getElementById('scaleInput');
@@ -559,12 +659,14 @@
     const scaleValueText = document.getElementById('scaleValueText');
     const rotateValueText = document.getElementById('rotateValueText');
     const transformControls = document.getElementById('transformControls');
+    const mobileQuickRow = document.getElementById('mobileQuickRow');
     const selectedLayerLabel = document.getElementById('selectedLayerLabel');
 
     function updateTransformUI() {
       const layer = layers.find(l => l.id === selectedLayerId);
       if (layer) {
         transformControls.classList.remove('opacity-40', 'pointer-events-none');
+        mobileQuickRow.classList.remove('opacity-40', 'pointer-events-none');
         scaleInput.value = layer.scale;
         rotateInput.value = layer.rotation;
         scaleValueText.textContent = `${Math.round(layer.scale * 100)}%`;
@@ -574,6 +676,7 @@
         selectedLayerLabel.textContent = `已選取：${typeNames[layer.type] || '元件'}`;
       } else {
         transformControls.classList.add('opacity-40', 'pointer-events-none');
+        mobileQuickRow.classList.add('opacity-40', 'pointer-events-none');
         selectedLayerLabel.textContent = '未選取元件';
       }
     }
@@ -596,13 +699,53 @@
       }
     });
 
-    document.getElementById('flipBtn').addEventListener('click', () => {
+    // ---- Shared actions, bound to both the desktop panel and the mobile quick row ----
+    function doFlip() {
       const layer = layers.find(l => l.id === selectedLayerId);
       if (layer) {
         layer.flipX = !layer.flipX;
         renderCanvas();
       }
-    });
+    }
+
+    function doDelete() {
+      if (selectedLayerId) {
+        layers = layers.filter(l => l.id !== selectedLayerId);
+        selectedLayerId = null;
+        updateTransformUI();
+        renderCanvas();
+      }
+    }
+
+    function doLayerUp() {
+      const idx = layers.findIndex(l => l.id === selectedLayerId);
+      if (idx !== -1 && idx < layers.length - 1) {
+        const temp = layers[idx];
+        layers[idx] = layers[idx + 1];
+        layers[idx + 1] = temp;
+        renderCanvas();
+      }
+    }
+
+    function doLayerDown() {
+      const idx = layers.findIndex(l => l.id === selectedLayerId);
+      if (idx > 0) {
+        const temp = layers[idx];
+        layers[idx] = layers[idx - 1];
+        layers[idx - 1] = temp;
+        renderCanvas();
+      }
+    }
+
+    document.getElementById('flipBtn').addEventListener('click', doFlip);
+    document.getElementById('deleteElementBtn').addEventListener('click', doDelete);
+    document.getElementById('layerUpBtn').addEventListener('click', doLayerUp);
+    document.getElementById('layerDownBtn').addEventListener('click', doLayerDown);
+
+    document.getElementById('mFlipBtn').addEventListener('click', doFlip);
+    document.getElementById('mDeleteBtn').addEventListener('click', doDelete);
+    document.getElementById('mLayerUpBtn').addEventListener('click', doLayerUp);
+    document.getElementById('mLayerDownBtn').addEventListener('click', doLayerDown);
 
     document.getElementById('centerElementBtn').addEventListener('click', () => {
       const layer = layers.find(l => l.id === selectedLayerId);
@@ -612,40 +755,11 @@
       }
     });
 
-    document.getElementById('deleteElementBtn').addEventListener('click', () => {
-      if (selectedLayerId) {
-        layers = layers.filter(l => l.id !== selectedLayerId);
-        selectedLayerId = null;
-        updateTransformUI();
-        renderCanvas();
-      }
-    });
-
     document.getElementById('clearAllBtn').addEventListener('click', () => {
       layers = [];
       selectedLayerId = null;
       updateTransformUI();
       renderCanvas();
-    });
-
-    document.getElementById('layerUpBtn').addEventListener('click', () => {
-      const idx = layers.findIndex(l => l.id === selectedLayerId);
-      if (idx !== -1 && idx < layers.length - 1) {
-        const temp = layers[idx];
-        layers[idx] = layers[idx + 1];
-        layers[idx + 1] = temp;
-        renderCanvas();
-      }
-    });
-
-    document.getElementById('layerDownBtn').addEventListener('click', () => {
-      const idx = layers.findIndex(l => l.id === selectedLayerId);
-      if (idx > 0) {
-        const temp = layers[idx];
-        layers[idx] = layers[idx - 1];
-        layers[idx - 1] = temp;
-        renderCanvas();
-      }
     });
 
     function initTabs() {
