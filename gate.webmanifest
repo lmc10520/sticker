@@ -1,7 +1,7 @@
 {
   "id": "./gate.html",
-  "name": "票口示意圖",
-  "short_name": "票口示意圖",
+  "name": "票口",
+  "short_name": "票口",
   "description": "各廳院票口在不同時段的物品擺放與開門狀態，以及廁所、尿布台、照護床位置",
   "lang": "zh-TW",
   "start_url": "./gate.html",
