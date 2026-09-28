@@ -6,9 +6,9 @@
 <title>票口示意圖</title>
 <meta name="theme-color" content="#231815">
 <meta name="description" content="各廳院票口在不同時段的物品擺放與開門狀態，以及廁所、尿布台、照護床位置">
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
-<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="manifest" href="gate.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="gate-icons/favicon-32.png">
+<link rel="apple-touch-icon" href="gate-icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="票口示意圖">
@@ -882,7 +882,18 @@ window.addEventListener("hashchange", ()=>{ loadHash(); render(); });
 
 /* ---------- 安裝到主畫面／離線 ---------- */
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
-  window.addEventListener("load", ()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+  window.addEventListener("load", async ()=>{
+    try{
+      // 清掉舊版（sw.js）註冊在整個 /sticker/ 資料夾的離線快取，避免影響同資料夾的其他網頁
+      for(const r of await navigator.serviceWorker.getRegistrations()){
+        const url=(r.active||r.waiting||r.installing||{}).scriptURL||"";
+        if(/\/sw\.js$/.test(url)) await r.unregister();
+      }
+      for(const k of await caches.keys()) if(k.startsWith("ticket-gate-")) await caches.delete(k);
+    }catch(e){}
+    // 只管 gate.html 這一頁
+    navigator.serviceWorker.register("gate-sw.js", {scope:"./gate.html"}).catch(()=>{});
+  });
 }
 let deferredPrompt=null;
 const standalone = matchMedia("(display-mode: standalone)").matches || navigator.standalone;
